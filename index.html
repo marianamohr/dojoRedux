@@ -18,8 +18,12 @@
     <input type="text" name='input' id='input' />
     <button id="btn-ok" type="button">Ok</button>
   </form>
-  <p id="tag-p">Nome</p>
+  <ul id="lista">
+      
+  </ul>
+          
   <script>
+    
     // Padrão da action
     //  const action = {
     //    type: 'INCREMENT',
@@ -30,14 +34,17 @@
 
     const INCREMENT = 'INCREMENT';
     const DECREMENT = 'DECREMENT';
+    
     // Criação do Reducer
-    function counterReducer(state = { clicks: 0, likes: 0, name: {} }, action) {
+    const meuEstado ={ clicks: 0, likes: 0, name: [] }
+
+    function counterReducer(state = meuEstado, action) {
       switch (action.type) {
         case INCREMENT:
           return {
             ...state,
             clicks: state.clicks + action.payload.amount,
-          }
+          } 
         case DECREMENT:
           return {
             ...state,
@@ -46,12 +53,19 @@
         case 'CHANGE':
           return {
             ...state,
-            name: action.payload.name,
+            name: [
+              ...name,
+              action.payload.name,
+            ],
           }
         default:
           return state;
       }
     }
+
+    // function meuDispath(meuObjeto) {
+    //   counterReducer(estadoAtual, meuObjeto)
+    // }
 
 
 
@@ -111,8 +125,12 @@
     store.subscribe(() => {
       const valueSpan = document.getElementById('value');
       valueSpan.innerHTML = store.getState().clicks;
-      const valueP = document.getElementById('tag-p');
-      valueP.innerHTML = store.getState().name;
+      const arrayList = store.getState().name;
+      arrayList.forEach(element => {
+        const li = document.createElement('li');
+        li.innerHTML = element;
+        document.getElementById('lista').appendChild(li);
+      });
     })
 
   </script>
